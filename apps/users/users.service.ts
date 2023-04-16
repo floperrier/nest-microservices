@@ -4,15 +4,15 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { UsersRepository } from './users.repository';
 import { CreateUserRequest } from './dto/create-user.request';
-import { User } from './schemas/user.schema';
+import { PrismaService } from '@app/common/database/prisma.service';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly usersRepository: UsersRepository) {}
+  constructor(private readonly PrismaService: PrismaService) {}
 
   async createUser(request: CreateUserRequest) {
+    console.log('request', request);
     await this.validateCreateUserRequest(request);
     const user = await this.usersRepository.create({
       ...request,
